@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Carga de datos
 @st.cache  # Esta línea hace que la carga de datos se almacene en caché
 def load_data():
-    data = pd.read_csv('tu_ruta_al_archivo.csv')
+    data = pd.read_csv('IMDB-Movie-Data.csv')
     return data
 
 data = load_data()
