@@ -25,3 +25,10 @@ if st.button('Generar Histograma'):
     data[column_to_plot].hist(ax=ax)
     ax.set_title(f'Histograma de {column_to_plot}')
     st.pyplot(fig)
+    
+# Seleccionar una columna para visualizar el top 5 de películas
+st.header('Top 5 de películas según la columna seleccionada')
+column_to_sort_by = st.selectbox('Elige una columna para ver el top 5 de películas', data.columns)
+if st.button('Mostrar Top 5'):
+    top_5_data = data.nlargest(5, column_to_sort_by)
+    st.write(top_5_data[['Title', column_to_sort_by]])
