@@ -32,3 +32,11 @@ column_to_sort_by = st.selectbox('Elige una columna para ver el top 5 de pelícu
 if st.button('Mostrar Top 5'):
     top_5_data = data.nlargest(5, column_to_sort_by)
     st.write(top_5_data[['Title', column_to_sort_by]])
+
+
+# Seleccionar una película para ver todos sus datos
+st.header('Ver datos de una película específica')
+movie_title = st.selectbox('Elige una película', data['Title'])
+if st.button('Mostrar Datos de la Película'):
+    movie_data = data[data['Title'] == movie_title]
+    st.write(movie_data)
