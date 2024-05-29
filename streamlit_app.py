@@ -1,40 +1,27 @@
-import altair as alt
-import numpy as np
-import pandas as pd
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
-"""
-# Welcome to Streamlit!
+# Carga de datos
+@st.cache  # Esta línea hace que la carga de datos se almacene en caché
+def load_data():
+    data = pd.read_csv('tu_ruta_al_archivo.csv')
+    return data
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+data = load_data()
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+# Título de la aplicación
+st.title('Visualizador de Datos del CSV')
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
+# Mostrar las primeras filas del DataFrame
+st.header('Primeras filas del dataset')
+st.write(data.head())
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
-
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
-
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
-
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+# Seleccionar una columna para visualizar su histograma
+st.header('Visualizar histograma de una columna')
+column_to_plot = st.selectbox('Elige una columna para graficar', data.columns)
+if st.button('Generar Histograma'):
+    fig, ax = plt.subplots()
+    data[column_to_plot].hist(ax=ax)
+    ax.set_title(f'Histograma de {column_to_plot}')
+    st.pyplot(fig)
